@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements BeanView, BeanAda
     private ArrayList<Bean.ResultsEntity> arrayList;
     private BeanAdapter adapter;
     private IBeanPresenter iBeanPresenter;
+    private List<Bean.ResultsEntity> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements BeanView, BeanAda
 
     @Override
     public void onSuccess(List<Bean.ResultsEntity> list) {
+        this.list = list;
         arrayList.addAll(list);
         adapter.notifyDataSetChanged();
     }
@@ -78,9 +80,7 @@ public class MainActivity extends AppCompatActivity implements BeanView, BeanAda
             ImageView mIv = view.findViewById(R.id.iv_vp);
             TextView mTv = view.findViewById(R.id.tv_vp);
 
-            Glide.with(this).load(resultsEntity.getUrl())
-                    .into(mIv);
-
+            Glide.with(this).load(list.get(i).getUrl()).into(mIv);
             mTv.setText(i + 1 + "/" + arrayList.size());
 
             views.add(view);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements BeanView, BeanAda
         MyVpAdapter myVpAdapter = new MyVpAdapter(views);
         mVp.setAdapter(myVpAdapter);
         myVpAdapter.notifyDataSetChanged();
-
         mVp.setCurrentItem(position);
+
     }
 }
